@@ -1,0 +1,64 @@
+CREATE TABLE IF NOT EXISTS users (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	updated_at BIGINT NOT NULL,
+	username VARCHAR(30) UNIQUE NOT NULL,
+	bio VARCHAR(400) NOT NULL DEFAULT '\',
+	avatar VARCHAR(200) NOT NULL DEFAULT '\',
+	email VARCHAR(40) NOT NULL,
+	password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS posts (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	updated_at BIGINT NOT NULL,
+	url VARCHAR(200) NOT NULL,
+	caption VARCHAR(240) NOT NULL,
+	user_id INTEGER NOT NULL
+);
+
+CREATE TABLE comments (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	updated_at BIGINT NOT NULL,
+	contents VARCHAR(240) NOT NULL,
+	user_id INTEGER NOT NULL,
+	post_id INTEGER NOT NULL
+);
+
+CREATE TABLE post_likes (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	user_id INTEGER NOT NULL UNIQUE,
+	post_id INTEGER NOT NULL
+);
+
+CREATE TABLE comment_likes (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	user_id INTEGER NOT NULL UNIQUE,
+	comment_id INTEGER NOT NULL
+);
+
+
+CREATE TABLE hashtags (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	title VARCHAR(20) NOT NULL UNIQUE
+);
+
+CREATE TABLE hashtag_post (
+	id SERIAL PRIMARY KEY,
+	hashtag_id INTEGER NOT NULL,
+	post_id INTEGER NOT NULL,
+	UNIQUE(hashtag_id, post_id)
+);
+
+
+CREATE TABLE followers (
+	id SERIAL PRIMARY KEY,
+	created_at BIGINT NOT NULL,
+	leader_id INTEGER NOT NULL,
+	follower_id INTEGER NOT NULL
+);
